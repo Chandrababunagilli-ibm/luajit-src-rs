@@ -258,6 +258,8 @@ impl Build {
             xcflags.push("-DLUA_USE_ASSERT");
             xcflags.push("-DLUA_USE_APICHECK");
         } else if cfg!(feature = "openresty") {
+            // Override OpenResty's default CCDEBUG=-g to ensure release builds
+            // don't include debug symbols, matching vanilla LuaJIT behavior
             make.env("CCDEBUG", "");
         }
 
