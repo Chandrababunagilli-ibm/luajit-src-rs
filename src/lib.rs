@@ -147,8 +147,9 @@ impl Build {
 
         // Copy release version file
         let relver = build_dir.join(".relver");
-        fs::copy(relver_file(manifest_dir), &relver)
-            .context(|| "Cannot copy release version file")?;
+        let relver_src = relver_file(manifest_dir);
+        fs::copy(&relver_src, &relver)
+            .context(|| format!("Cannot copy release version file from '{}'", relver_src.display()))?;
 
         // Fix permissions for certain build situations
         let mut perms = (fs::metadata(&relver).map(|md| md.permissions()))
@@ -291,8 +292,9 @@ impl Build {
 
         // Copy release version file
         let relver = build_dir.join(".relver");
-        fs::copy(relver_file(manifest_dir), &relver)
-            .context(|| "Cannot copy release version file")?;
+        let relver_src = relver_file(manifest_dir);
+        fs::copy(&relver_src, &relver)
+            .context(|| format!("Cannot copy release version file from '{}'", relver_src.display()))?;
 
         let mut msvcbuild = Command::new(build_dir.join("src").join("msvcbuild.bat"));
         msvcbuild.current_dir(build_dir.join("src"));
